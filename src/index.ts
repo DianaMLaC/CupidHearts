@@ -1,3 +1,4 @@
+import Asteroid from './asteroid'
 import MovingObject from './moving_object'
 import { Canvas } from './types'
 
@@ -17,6 +18,9 @@ window.addEventListener('DOMContentLoaded', () => {
     color: '#00FF00',
   })
   movingObject.draw(ctx)
+
+  const asteroid = new Asteroid({ pos: [20, 30] })
+  asteroid.draw(ctx)
 })
 
 window.MovingObject = MovingObject
