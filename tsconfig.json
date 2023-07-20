@@ -3,8 +3,9 @@
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "outDir": "./dist/",
-    "moduleResolution": "Node16"
+    "moduleResolution": "Node16",
+    "typeRoots": ["./src/global.d.ts"]
   },
   "extends": "@tsconfig/recommended/tsconfig.json",
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
 }
