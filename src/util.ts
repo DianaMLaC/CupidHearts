@@ -7,3 +7,13 @@ export function randomVec(length: number) {
 export function scale(vec: number[], m: number) {
   return [vec[0] * m, vec[1] * m]
 }
+
+export function distance(p1: number[], p2: number[]): number {
+  const y = p1[1] - p2[1] // order doesn't matter because we'll square it later
+  const x = p1[0] - p2[0] // the square of a negative number is the same as a square of the positive
+  const y_2 = y * y // same as y ** 2 (y squared)
+  const x_2 = x ** 2 // same as above but with x
+
+  const dist = Math.sqrt(x_2 + y_2)
+  return dist
+}
