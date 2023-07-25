@@ -23,7 +23,7 @@ class Asteroid extends MovingObject {
 
   collideWith(otherObj: MovingObject): void {
     if (otherObj instanceof Ship) {
-      //
+      otherObj.relocate()
       return
     }
   }

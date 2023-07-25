@@ -17,3 +17,12 @@ export function distance(p1: number[], p2: number[]): number {
   const dist = Math.sqrt(x_2 + y_2)
   return dist
 }
+
+export function rotate(angle: number, vec: number[]) {
+  const length_squared = vec[0] ** 2 + vec[1] ** 2
+  const length = Math.sqrt(length_squared)
+  const initialAngle = Math.sin(vec[1] / vec[0])
+  const finalAngle = initialAngle + angle
+
+  return [Math.cos(finalAngle) + length, Math.sin(finalAngle) + length]
+}

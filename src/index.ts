@@ -15,6 +15,9 @@ window.addEventListener('DOMContentLoaded', () => {
   const g = new GameView(ctx)
   g.start()
 
+  document.addEventListener('keydown', (event) => {
+    g.handleKeyPress(event)
+  })
   // const movingObject = new MovingObject({
   //   pos: [30, 30],
   //   vel: [10, 10],

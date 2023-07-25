@@ -1,3 +1,4 @@
+// import Asteroid from './asteroid'
 import Game from './game'
 import type { Canvas, MovingObjectConfig } from './types'
 import { distance } from './util'
@@ -37,6 +38,11 @@ class MovingObject {
       return true
     }
     return false
+  }
+
+  collideWith(otherObj: MovingObject): void {
+    // this.game.remove(otherObj)
+    // this.game.remove(this)
   }
 }
 

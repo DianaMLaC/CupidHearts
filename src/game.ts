@@ -1,4 +1,5 @@
 import Asteroid from './asteroid'
+import Bullet from './bullet'
 import MovingObject from './moving_object'
 import Ship from './ship'
 import { Canvas } from './types'
@@ -10,9 +11,11 @@ class Game {
 
   asteroids: Asteroid[]
   ship: Ship
+  bullets: Bullet[]
 
   constructor() {
     this.asteroids = this.addAsteroids()
+    this.bullets = []
     this.ship = new Ship(
       {
         pos: this.randomPosition(),
@@ -24,14 +27,26 @@ class Game {
   addAsteroids() {
     const asteroids = []
 
-    for (let i = 0; i < Game.NUM_ASTEROIDS; i++) {
-      // const pos = this.randomPosition()
-      const asteroid = new Asteroid({ pos: this.randomPosition() }, this)
+    // for (let i = 0; i < Game.NUM_ASTEROIDS; i++) {
+    //   // const pos = this.randomPosition()
+    //   const asteroid = new Asteroid({ pos: this.randomPosition() }, this)
 
-      asteroids.push(asteroid)
-    }
+    //   asteroids.push(asteroid)
+    // }
 
     return asteroids
+  }
+
+  add(obj: MovingObject): void {
+    if (obj instanceof Asteroid) {
+      this.asteroids.push(obj)
+      return
+    }
+
+    if (obj instanceof Bullet) {
+      this.bullets.push(obj)
+      return
+    }
   }
 
   randomPosition() {
@@ -42,7 +57,10 @@ class Game {
   }
 
   get allObjects(): MovingObject[] {
-    return (this.asteroids as MovingObject[]).concat(this.ship as MovingObject)
+    return (this.asteroids as MovingObject[])
+      .concat([this.ship])
+      .concat(this.bullets as MovingObject[])
+    //this needs to contain the bullets too
   }
 
   // drawBackground(ctx: Canvas) {
@@ -107,12 +125,24 @@ class Game {
     }
   }
 
-  remove(asteroid: Asteroid) {
-    this.asteroids = this.asteroids.filter((a) => a !== asteroid)
+  remove(obj: MovingObject) {
+    if (obj instanceof Asteroid) {
+      this.asteroids = this.asteroids.filter((a) => a !== obj)
+      return
+    }
+
+    if (obj instanceof Bullet) {
+      this.bullets = this.bullets.filter((a) => a !== obj)
+      return
+    }
     // const asteroidIndex = this.asteroids.indexOf(asteroid)
     // if (asteroidIndex !== -1) {
     //   this.asteroids.splice(asteroidIndex, 1)
     // }
+  }
+
+  bindKeyHandlers() {
+    // global method key(key, callback)
   }
 }
 
