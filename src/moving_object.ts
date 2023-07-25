@@ -1,5 +1,4 @@
 import Game from './game'
-import Asteroid from './asteroid'
 import type { Canvas, MovingObjectConfig } from './types'
 import { distance } from './util'
 
@@ -26,17 +25,16 @@ class MovingObject {
     ctx.fill()
   }
 
-  move() {
+  move(): void {
     this.pos = [this.pos[0] + this.vel[0], this.pos[1] + this.vel[1]]
     this.game.wrap(this.pos)
   }
 
-  isCollidedWith(otherObj: Asteroid): boolean {
+  isCollidedWith(otherObj: MovingObject): boolean {
     const dist = distance(this.pos, otherObj.pos)
     const combinedRadius = this.radius + otherObj.radius
     if (dist < combinedRadius) {
-      this.game.remove(otherObj)
-      this.game.remove(this)
+      return true
     }
     return false
   }
