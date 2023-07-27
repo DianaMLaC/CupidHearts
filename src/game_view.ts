@@ -4,17 +4,27 @@ import { Canvas } from './types'
 class GameView {
   ctx: Canvas
   game: Game
+  lastTime: number
 
   constructor(ctx: Canvas) {
     this.ctx = ctx as Canvas
     this.game = new Game()
+    this.lastTime = new Date().getTime()
+
+    this.start = this.start.bind(this)
+
+    requestAnimationFrame(this.start)
   }
 
   start() {
-    setInterval(() => {
-      this.game.draw(this.ctx)
-      this.game.step()
-    }, 50)
+    const now = new Date().getTime()
+    const delta = now - this.lastTime
+    this.lastTime = now
+
+    this.game.draw(this.ctx)
+    this.game.step(delta)
+
+    requestAnimationFrame(this.start)
   }
 
   handleKeyPress(event: KeyboardEvent) {

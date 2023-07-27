@@ -1,4 +1,5 @@
 import Game from './game'
+
 import MovingObject from './moving_object'
 import { MovingObjectConfig } from './types'
 
@@ -18,11 +19,8 @@ class Bullet extends MovingObject {
     )
   }
 
-  collideWith(otherObj: MovingObject): void {
-    if (otherObj instanceof Asteroid) {
-      this.game.remove(otherObj)
-      return
-    }
+  get isWrappable(): boolean {
+    return false
   }
 }
 

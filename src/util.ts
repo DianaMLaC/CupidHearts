@@ -26,3 +26,7 @@ export function rotate(angle: number, vec: number[]) {
 
   return [Math.cos(finalAngle) + length, Math.sin(finalAngle) + length]
 }
+
+export function polarToVector(angle: number): number[] {
+  return [Math.cos(angle), -1 * Math.sin(angle)]
+}

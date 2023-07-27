@@ -27,12 +27,12 @@ class Game {
   addAsteroids() {
     const asteroids = []
 
-    // for (let i = 0; i < Game.NUM_ASTEROIDS; i++) {
-    //   // const pos = this.randomPosition()
-    //   const asteroid = new Asteroid({ pos: this.randomPosition() }, this)
+    for (let i = 0; i < Game.NUM_ASTEROIDS; i++) {
+      // const pos = this.randomPosition()
+      const asteroid = new Asteroid({ pos: this.randomPosition() }, this)
 
-    //   asteroids.push(asteroid)
-    // }
+      asteroids.push(asteroid)
+    }
 
     return asteroids
   }
@@ -63,11 +63,6 @@ class Game {
     //this needs to contain the bullets too
   }
 
-  // drawBackground(ctx: Canvas) {
-  //   ctx.fillStyle = 'black'
-  //   ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y)
-  // }
-
   draw(ctx: Canvas) {
     ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y)
     // ctx.beginPath()
@@ -75,25 +70,27 @@ class Game {
     this.allObjects.forEach((obj: MovingObject) => obj.draw(ctx))
   }
 
-  moveObjects() {
-    this.allObjects.forEach((obj) => obj.move())
+  moveObjects(delta: number) {
+    this.allObjects.forEach((obj) => obj.move(delta))
   }
 
-  step() {
-    this.moveObjects()
+  step(delta: number) {
+    this.moveObjects(delta)
     this.checkCollisions()
   }
 
   wrap(pos: number[]) {
     if (pos[0] >= Game.DIM_X) {
       pos[0] = pos[0] % Game.DIM_X
-    } else if (pos[0] < 0) {
+    }
+    if (pos[0] < 0) {
       pos[0] = Game.DIM_X + (pos[0] % Game.DIM_X)
     }
 
     if (pos[1] >= Game.DIM_Y) {
       pos[1] = pos[1] % Game.DIM_Y
-    } else if (pos[1] < 0) {
+    }
+    if (pos[1] < 0) {
       pos[1] = Game.DIM_Y + (pos[1] % Game.DIM_Y)
     }
 
@@ -141,8 +138,11 @@ class Game {
     // }
   }
 
-  bindKeyHandlers() {
-    // global method key(key, callback)
+  isOutOfBounds(pos: number[]): boolean {
+    if (pos[0] >= Game.DIM_X || pos[0] < 0 || pos[1] < 0 || pos[1] >= Game.DIM_Y) {
+      return true
+    }
+    return false
   }
 }
 

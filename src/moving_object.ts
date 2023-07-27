@@ -19,6 +19,10 @@ class MovingObject {
     this.game = game
   }
 
+  get isWrappable(): boolean {
+    return true
+  }
+
   draw(ctx: Canvas) {
     ctx.fillStyle = this.color
     ctx.beginPath()
@@ -26,9 +30,18 @@ class MovingObject {
     ctx.fill()
   }
 
-  move(): void {
-    this.pos = [this.pos[0] + this.vel[0], this.pos[1] + this.vel[1]]
-    this.game.wrap(this.pos)
+  move(delta: number): void {
+    const velX = (this.vel[0] * delta) / 20
+    const velY = (this.vel[1] * delta) / 20
+
+    this.pos = [this.pos[0] + velX, this.pos[1] + velY]
+    if (this.game.isOutOfBounds(this.pos)) {
+      if (this.isWrappable) {
+        this.game.wrap(this.pos)
+      } else {
+        this.game.remove(this)
+      }
+    }
   }
 
   isCollidedWith(otherObj: MovingObject): boolean {

@@ -2,7 +2,7 @@ import Game from './game'
 import Bullet from './bullet'
 import MovingObject from './moving_object'
 import { Canvas, MovingObjectConfig } from './types'
-import { randomVec, rotate, scale } from './util'
+import { polarToVector, randomVec, scale } from './util'
 
 function calcPoint(angle: number, x: number, y: number, radius: number): number[] {
   const adj = radius * Math.cos(angle)
@@ -14,7 +14,7 @@ function calcPoint(angle: number, x: number, y: number, radius: number): number[
 class Ship extends MovingObject {
   static RADIUS = 30
   static COLOR = 'green'
-  static INITIAL_SPEED = 5
+  static INITIAL_SPEED = 2
 
   facingAngle: number
 
@@ -59,6 +59,7 @@ class Ship extends MovingObject {
   relocate() {
     this.pos = this.game.randomPosition()
     this.vel = randomVec(Ship.INITIAL_SPEED)
+    this.facingAngle = Math.atan(this.vel[0] / (-1 * this.vel[1]))
   }
 
   power(impulse: number) {
@@ -75,10 +76,14 @@ class Ship extends MovingObject {
   }
 
   fireBullet() {
+    const startingAngle = Math.PI / 2 - this.facingAngle
+    const initialVector = polarToVector(startingAngle)
+    const bulletPos = calcPoint(startingAngle, this.pos[0], this.pos[1], Ship.RADIUS)
+
     const bullet = new Bullet(
       {
-        pos: this.pos,
-        vel: this.vel,
+        pos: bulletPos,
+        vel: scale(initialVector, 50),
       },
       this.game
     )
