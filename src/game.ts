@@ -2,6 +2,7 @@ import Asteroid from './asteroid'
 import Bullet from './bullet'
 import MovingObject from './moving_object'
 import Ship from './ship'
+import Background from './background'
 import { Canvas } from './types'
 
 class Game {
@@ -12,8 +13,10 @@ class Game {
   asteroids: Asteroid[]
   ship: Ship
   bullets: Bullet[]
+  background: Background
 
   constructor() {
+    this.background = new Background()
     this.asteroids = this.addAsteroids()
     this.bullets = []
     this.ship = new Ship(
@@ -63,10 +66,15 @@ class Game {
     //this needs to contain the bullets too
   }
 
+  // draw(ctx: Canvas) {
+  //   ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y)
+  //   // ctx.beginPath()
+  //   // this.drawBackground(ctx)
+  //   this.allObjects.forEach((obj: MovingObject) => obj.draw(ctx))
+  // }
+
   draw(ctx: Canvas) {
-    ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y)
-    // ctx.beginPath()
-    // this.drawBackground(ctx)
+    this.background.draw(ctx)
     this.allObjects.forEach((obj: MovingObject) => obj.draw(ctx))
   }
 
@@ -74,7 +82,13 @@ class Game {
     this.allObjects.forEach((obj) => obj.move(delta))
   }
 
+  // step(delta: number) {
+  //   this.moveObjects(delta)
+  //   this.checkCollisions()
+  // }
+
   step(delta: number) {
+    this.background.update(delta)
     this.moveObjects(delta)
     this.checkCollisions()
   }
@@ -98,19 +112,6 @@ class Game {
   }
 
   checkCollisions() {
-    // const initialObjects = this.allObjects
-
-    // for (let i = 0; i < initialObjects.length - 1; i++) {
-    //   for (let j = i + 1; j < initialObjects.length; j++) {
-    //     const a = initialObjects[i]
-    //     const b = initialObjects[j]
-    //     if (a.isCollidedWith(b)) {
-    //       alert('COLLISION')
-    //       a.collideWith(b)
-    //     }
-    //   }
-    // }
-
     const allAsteroids = this.asteroids
 
     for (const asteroid of allAsteroids) {
@@ -132,10 +133,6 @@ class Game {
       this.bullets = this.bullets.filter((a) => a !== obj)
       return
     }
-    // const asteroidIndex = this.asteroids.indexOf(asteroid)
-    // if (asteroidIndex !== -1) {
-    //   this.asteroids.splice(asteroidIndex, 1)
-    // }
   }
 
   isOutOfBounds(pos: number[]): boolean {

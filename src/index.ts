@@ -18,19 +18,6 @@ window.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keydown', (event) => {
     g.handleKeyPress(event)
   })
-  // const movingObject = new MovingObject({
-  //   pos: [30, 30],
-  //   vel: [10, 10],
-  //   radius: 5,
-  //   color: '#00FF00',
-  // })
-  // movingObject.draw(ctx)
-
-  // const asteroid = new Asteroid({ pos: [20, 30] })
-  // asteroid.draw(ctx)
-
-  // const a2 = new Asteroid({ pos: [100, 200] })
-  // a2.draw(ctx)
 })
 
 window.MovingObject = MovingObject

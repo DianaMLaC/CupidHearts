@@ -21,8 +21,8 @@ class GameView {
     const delta = now - this.lastTime
     this.lastTime = now
 
-    this.game.draw(this.ctx)
     this.game.step(delta)
+    this.game.draw(this.ctx)
 
     requestAnimationFrame(this.start)
   }

@@ -52,11 +52,6 @@ class MovingObject {
     }
     return false
   }
-
-  collideWith(otherObj: MovingObject): void {
-    // this.game.remove(otherObj)
-    // this.game.remove(this)
-  }
 }
 
 export default MovingObject
