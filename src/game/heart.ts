@@ -44,14 +44,17 @@ class Heart extends MovingObject {
     ctx.fillStyle = this.color
     ctx.beginPath()
 
-    // Left half of the heart
+    // Draw the heart shape
+    ctx.moveTo(x, y + size / 4)
+
+    // Left arc
     ctx.arc(x - size / 4, y, size / 4, 0, Math.PI, true)
 
-    // Right half of the heart
+    // Right arc
     ctx.arc(x + size / 4, y, size / 4, 0, Math.PI, true)
 
     // Bottom point of the heart
-    ctx.lineTo(x, y + size / 2)
+    ctx.bezierCurveTo(x + size / 2, y + size / 2, x, y + size, x - size / 2, y + size / 2)
 
     ctx.closePath()
     ctx.fill()

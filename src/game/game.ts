@@ -28,7 +28,7 @@ class Game {
     )
   }
 
-  addHearts() {
+  addHearts(): Heart[] {
     const hearts = []
 
     for (let i = 0; i < Game.NUM_HEARTS; i++) {
@@ -53,7 +53,7 @@ class Game {
     }
   }
 
-  randomPosition() {
+  randomPosition(): number[] {
     const x = Math.floor(Math.random() * Game.DIM_X)
     const y = Math.floor(Math.random() * Game.DIM_Y)
 
@@ -81,7 +81,7 @@ class Game {
     this.checkCollisions()
   }
 
-  wrap(pos: number[]) {
+  wrap(pos: number[]): number[] {
     if (pos[0] >= Game.DIM_X) {
       pos[0] = pos[0] % Game.DIM_X
     }

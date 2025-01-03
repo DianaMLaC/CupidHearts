@@ -36,7 +36,7 @@ class Cupid extends MovingObject {
 
   draw(ctx: Canvas) {
     const [x, y] = this.pos
-    const size = Cupid.RADIUS * 2
+    const size = Cupid.RADIUS * 3
 
     ctx.save()
     ctx.translate(x, y)

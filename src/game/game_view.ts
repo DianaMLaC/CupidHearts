@@ -29,21 +29,21 @@ class GameView {
 
   handleKeyPress(event: KeyboardEvent) {
     if (event.code === 'Space') {
-      this.game.ship.fireBullet()
+      this.game.cupid.fireArrow()
       return
     }
     if (event.code === 'ArrowUp') {
-      this.game.ship.power(2)
+      this.game.cupid.power(2)
       return
     }
 
     if (event.code === 'ArrowLeft') {
-      this.game.ship.rotate((-1 * Math.PI) / 20)
+      this.game.cupid.rotate((-1 * Math.PI) / 20)
       return
     }
 
     if (event.code === 'ArrowRight') {
-      this.game.ship.rotate(Math.PI / 20)
+      this.game.cupid.rotate(Math.PI / 20)
       return
     }
   }
