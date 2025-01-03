@@ -2,15 +2,8 @@ import Game from './game'
 import Arrow from './arrow'
 import MovingObject from './moving_object'
 import { Canvas, MovingObjectConfig } from './types'
-import { polarToVector, randomVec, scale } from './util'
+import { randomVec } from './util'
 import cupidImage from '../assets/cupid.png'
-
-function calcPoint(angle: number, x: number, y: number, radius: number): number[] {
-  const adj = radius * Math.cos(angle)
-  const opp = radius * Math.sin(angle)
-
-  return [x + adj, y - opp]
-}
 
 class Cupid extends MovingObject {
   static RADIUS = 30
@@ -18,6 +11,8 @@ class Cupid extends MovingObject {
 
   facingAngle: number
   image: HTMLImageElement
+  private readonly SPRITE_BASE_ANGLE = 2.5
+  private bowOffset = [-50, 5]
 
   constructor(config: Partial<MovingObjectConfig> & Pick<MovingObjectConfig, 'pos'>, game: Game) {
     super(
@@ -31,7 +26,7 @@ class Cupid extends MovingObject {
     )
     this.image = new Image()
     this.image.src = cupidImage
-    this.facingAngle = Math.atan(this.vel[0] / (-1 * this.vel[1]))
+    this.facingAngle = Math.atan2(this.vel[1], this.vel[0])
   }
 
   draw(ctx: Canvas) {
@@ -40,7 +35,9 @@ class Cupid extends MovingObject {
 
     ctx.save()
     ctx.translate(x, y)
-    ctx.rotate(this.facingAngle)
+
+    ctx.rotate(this.facingAngle + this.SPRITE_BASE_ANGLE)
+
     ctx.drawImage(this.image, -size / 2, -size / 2, size, size)
     ctx.restore()
   }
@@ -48,16 +45,14 @@ class Cupid extends MovingObject {
   relocate() {
     this.pos = this.game.randomPosition()
     this.vel = randomVec(Cupid.INITIAL_SPEED)
-    this.facingAngle = Math.atan(this.vel[0] / (-1 * this.vel[1]))
+    this.facingAngle = Math.atan2(this.vel[1], this.vel[0])
   }
 
   power(impulse: number) {
-    const size = impulse
-    const x = size * Math.sin(this.facingAngle)
-    const y = size * Math.cos(this.facingAngle)
+    const x = impulse * Math.cos(this.facingAngle)
+    const y = impulse * Math.sin(this.facingAngle)
 
     this.vel = [this.vel[0] + x, this.vel[1] - y]
-    console.log('powered up, new velocity is', this.vel)
   }
 
   rotate(angle: number) {
@@ -65,17 +60,21 @@ class Cupid extends MovingObject {
   }
 
   fireArrow() {
-    const startingAngle = Math.PI / 2 - this.facingAngle
-    const initialVector = polarToVector(startingAngle)
-    const arrowPos = calcPoint(startingAngle, this.pos[0], this.pos[1], Cupid.RADIUS)
+    const ARROW_SPEED = 0.1
 
-    const arrow = new Arrow(
-      {
-        pos: arrowPos,
-        vel: scale(initialVector, 50),
-      },
-      this.game
-    )
+    const arrowVel = [
+      ARROW_SPEED * Math.cos(this.facingAngle),
+      ARROW_SPEED * Math.sin(this.facingAngle),
+    ]
+
+    const [localX, localY] = this.bowOffset
+    const cosA = Math.cos(this.facingAngle)
+    const sinA = Math.sin(this.facingAngle)
+
+    const rotatedOffset = [localX * cosA - localY * sinA, localX * sinA + localY * cosA]
+    const arrowPos = [this.pos[0] + rotatedOffset[0], this.pos[1] + rotatedOffset[1]]
+
+    const arrow = new Arrow({ pos: arrowPos, vel: arrowVel }, this.game)
     this.game.add(arrow)
   }
 }

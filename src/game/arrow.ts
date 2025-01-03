@@ -11,7 +11,7 @@ class Arrow extends MovingObject {
       {
         pos: config.pos,
         vel: config.vel,
-        color: 'RED',
+        color: 'black',
         radius: 2,
       },
       game
@@ -20,21 +20,33 @@ class Arrow extends MovingObject {
 
   draw(ctx: Canvas) {
     const [x, y] = this.pos
+    const angle = Math.atan2(this.vel[1], this.vel[0])
 
-    ctx.fillStyle = this.color
+    ctx.save()
+    ctx.translate(x, y)
+
+    // If you need the arrow to point the same direction as velocity, just use `angle`.
+    // If you want the arrow reversed 180°, do `angle + Math.PI`.
+    // Here I’ll assume arrow = velocity direction:
+    ctx.rotate(angle)
+
+    ctx.fillStyle = 'black'
     ctx.beginPath()
 
-    // Draw arrowhead
-    ctx.moveTo(x, y)
-    ctx.lineTo(x - 10, y - 5)
-    ctx.lineTo(x - 10, y + 5)
+    // 1) Shaft: from (−15, 0) to (+5, 0), making it ~20px long
+    ctx.moveTo(-15, 0)
+    ctx.lineTo(5, 0)
 
-    // Draw arrow shaft
-    ctx.moveTo(x - 10, y)
-    ctx.lineTo(x - 20, y)
+    // 2) Arrowhead (a small triangular tip)
+    //    The tip is at x=+5. We’ll draw two lines out from there.
+    ctx.lineTo(0, -5)
+    ctx.moveTo(5, 0)
+    ctx.lineTo(0, 5)
 
     ctx.closePath()
     ctx.fill()
+
+    ctx.restore()
   }
 
   get isWrappable(): boolean {

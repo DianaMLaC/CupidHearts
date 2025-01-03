@@ -32,9 +32,7 @@ class Game {
     const hearts = []
 
     for (let i = 0; i < Game.NUM_HEARTS; i++) {
-      // const pos = this.randomPosition()
       const heart = new Heart({ pos: this.randomPosition() }, this)
-
       hearts.push(heart)
     }
 
