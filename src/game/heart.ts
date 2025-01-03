@@ -41,23 +41,23 @@ class Heart extends MovingObject {
     const [x, y] = this.pos
     const size = this.radius
 
+    ctx.save()
+    ctx.translate(x, y)
+    ctx.scale(size / 50, size / 50)
+
     ctx.fillStyle = this.color
     ctx.beginPath()
 
-    // Draw the heart shape
-    ctx.moveTo(x, y + size / 4)
+    ctx.moveTo(0, -30)
 
-    // Left arc
-    ctx.arc(x - size / 4, y, size / 4, 0, Math.PI, true)
+    ctx.bezierCurveTo(-25, -50, -50, -20, 0, 30)
 
-    // Right arc
-    ctx.arc(x + size / 4, y, size / 4, 0, Math.PI, true)
-
-    // Bottom point of the heart
-    ctx.bezierCurveTo(x + size / 2, y + size / 2, x, y + size, x - size / 2, y + size / 2)
+    ctx.bezierCurveTo(50, -20, 25, -50, 0, -30)
 
     ctx.closePath()
     ctx.fill()
+
+    ctx.restore()
   }
 }
 
