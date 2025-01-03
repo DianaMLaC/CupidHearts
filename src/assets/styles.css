@@ -1,0 +1,64 @@
+/* Reset some default styles for consistency */
+body, html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+  background-color: #000;
+  color: #fff;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Center the game container and ensure it's responsive */
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 1024px;
+  width: 100%;
+}
+
+/* Style the heading */
+h1 {
+  margin: 20px 0;
+  font-size: 3rem;
+  color: #ff69b4;
+}
+
+/* Style the score display */
+#score {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+/* Constrain the canvas size and keep it centered */
+#asteroids-game {
+  border: 2px solid #ff69b4;
+  background-color: #000;
+  max-width: 100%;
+  max-height: 80vh;
+  width: 100%;
+  height: auto;
+}
+
+/* Style the Play Again button */
+#play-again {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  background-color: #ff69b4;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+#play-again:hover {
+  transform: scale(1.1);
+}

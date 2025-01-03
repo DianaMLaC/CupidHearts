@@ -5,7 +5,6 @@ export interface Dimensions {
 
 export interface AbstractGame {
   wrap: (pos: number[]) => void
-  // remove: (asteroid: any) => void
 }
 
 export interface MovingObjectConfig {

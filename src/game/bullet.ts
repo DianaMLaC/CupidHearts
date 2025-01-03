@@ -1,7 +1,6 @@
 import Game from './game'
-
 import MovingObject from './moving_object'
-import { MovingObjectConfig } from './types'
+import { MovingObjectConfig, Canvas } from './types'
 
 class Bullet extends MovingObject {
   constructor(
@@ -17,6 +16,25 @@ class Bullet extends MovingObject {
       },
       game
     )
+  }
+
+  draw(ctx: Canvas) {
+    const [x, y] = this.pos
+
+    ctx.fillStyle = this.color
+    ctx.beginPath()
+
+    // Draw arrowhead
+    ctx.moveTo(x, y)
+    ctx.lineTo(x - 10, y - 5)
+    ctx.lineTo(x - 10, y + 5)
+
+    // Draw arrow shaft
+    ctx.moveTo(x - 10, y)
+    ctx.lineTo(x - 20, y)
+
+    ctx.closePath()
+    ctx.fill()
   }
 
   get isWrappable(): boolean {
