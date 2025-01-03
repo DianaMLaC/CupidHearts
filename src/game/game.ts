@@ -2,25 +2,25 @@
 import Heart from './heart'
 import Arrow from './arrow'
 import MovingObject from './moving_object'
-import Ship from './cupid'
+import Cupid from './cupid'
 import Background from './background'
 import { Canvas } from './types'
 
 class Game {
   static DIM_X = 1024 // it should be the width of the canvas html element
   static DIM_Y = 800 // t should be the height of the canvas html element
-  static NUM_ASTEROIDS = 10
+  static NUM_HEARTS = 10
 
-  asteroids: Heart[]
-  ship: Ship
-  bullets: Arrow[]
+  hearts: Heart[]
+  cupid: Cupid
+  arrows: Arrow[]
   background: Background
 
   constructor() {
     this.background = new Background()
-    this.asteroids = this.addAsteroids()
-    this.bullets = []
-    this.ship = new Ship(
+    this.hearts = this.addHearts()
+    this.arrows = []
+    this.cupid = new Cupid(
       {
         pos: this.randomPosition(),
       },
@@ -28,27 +28,27 @@ class Game {
     )
   }
 
-  addAsteroids() {
-    const asteroids = []
+  addHearts() {
+    const hearts = []
 
-    for (let i = 0; i < Game.NUM_ASTEROIDS; i++) {
+    for (let i = 0; i < Game.NUM_HEARTS; i++) {
       // const pos = this.randomPosition()
-      const asteroid = new Asteroid({ pos: this.randomPosition() }, this)
+      const heart = new Heart({ pos: this.randomPosition() }, this)
 
-      asteroids.push(asteroid)
+      hearts.push(heart)
     }
 
-    return asteroids
+    return hearts
   }
 
   add(obj: MovingObject): void {
-    if (obj instanceof Asteroid) {
-      this.asteroids.push(obj)
+    if (obj instanceof Heart) {
+      this.hearts.push(obj)
       return
     }
 
-    if (obj instanceof Bullet) {
-      this.bullets.push(obj)
+    if (obj instanceof Arrow) {
+      this.arrows.push(obj)
       return
     }
   }
@@ -61,18 +61,10 @@ class Game {
   }
 
   get allObjects(): MovingObject[] {
-    return (this.asteroids as MovingObject[])
-      .concat([this.ship])
-      .concat(this.bullets as MovingObject[])
-    //this needs to contain the bullets too
+    return (this.hearts as MovingObject[])
+      .concat([this.cupid])
+      .concat(this.arrows as MovingObject[])
   }
-
-  // draw(ctx: Canvas) {
-  //   ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y)
-  //   // ctx.beginPath()
-  //   // this.drawBackground(ctx)
-  //   this.allObjects.forEach((obj: MovingObject) => obj.draw(ctx))
-  // }
 
   draw(ctx: Canvas) {
     this.background.draw(ctx)
@@ -82,11 +74,6 @@ class Game {
   moveObjects(delta: number) {
     this.allObjects.forEach((obj) => obj.move(delta))
   }
-
-  // step(delta: number) {
-  //   this.moveObjects(delta)
-  //   this.checkCollisions()
-  // }
 
   step(delta: number) {
     this.background.update(delta)
@@ -113,25 +100,25 @@ class Game {
   }
 
   checkCollisions() {
-    const allAsteroids = this.asteroids
+    const allHearts = this.hearts
 
-    for (const asteroid of allAsteroids) {
-      for (const otherObj of this.allObjects.filter((obj) => obj !== asteroid)) {
-        if (asteroid.isCollidedWith(otherObj)) {
-          asteroid.collideWith(otherObj)
+    for (const heart of allHearts) {
+      for (const otherObj of this.allObjects.filter((obj) => obj !== heart)) {
+        if (heart.isCollidedWith(otherObj)) {
+          heart.collideWith(otherObj)
         }
       }
     }
   }
 
   remove(obj: MovingObject) {
-    if (obj instanceof Asteroid) {
-      this.asteroids = this.asteroids.filter((a) => a !== obj)
+    if (obj instanceof Heart) {
+      this.hearts = this.hearts.filter((a) => a !== obj)
       return
     }
 
-    if (obj instanceof Bullet) {
-      this.bullets = this.bullets.filter((a) => a !== obj)
+    if (obj instanceof Arrow) {
+      this.arrows = this.arrows.filter((a) => a !== obj)
       return
     }
   }
