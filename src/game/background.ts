@@ -11,7 +11,7 @@ class Background {
   }
 
   draw(ctx: Canvas) {
-    ctx.fillStyle = 'black'
+    ctx.fillStyle = '#87CEEB'
     ctx.fillRect(0, 0, 1024, 800)
 
     ctx.fillStyle = 'white'
