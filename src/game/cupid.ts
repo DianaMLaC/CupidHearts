@@ -1,8 +1,9 @@
 import Game from './game'
-import Bullet from './bullet'
+import Arrow from './arrow'
 import MovingObject from './moving_object'
 import { Canvas, MovingObjectConfig } from './types'
 import { polarToVector, randomVec, scale } from './util'
+import cupidImage from '../assets/cupid.png'
 
 function calcPoint(angle: number, x: number, y: number, radius: number): number[] {
   const adj = radius * Math.cos(angle)
@@ -11,54 +12,42 @@ function calcPoint(angle: number, x: number, y: number, radius: number): number[
   return [x + adj, y - opp]
 }
 
-class Ship extends MovingObject {
+class Cupid extends MovingObject {
   static RADIUS = 30
-  static COLOR = 'green'
   static INITIAL_SPEED = 2
 
   facingAngle: number
+  image: HTMLImageElement
 
   constructor(config: Partial<MovingObjectConfig> & Pick<MovingObjectConfig, 'pos'>, game: Game) {
     super(
       {
         pos: config.pos,
-        color: config.color ?? Ship.COLOR,
-        radius: config.radius ?? Ship.RADIUS,
-        vel: config.vel ?? randomVec(Ship.INITIAL_SPEED),
+        color: config.color ?? 'green',
+        radius: config.radius ?? Cupid.RADIUS,
+        vel: config.vel ?? randomVec(Cupid.INITIAL_SPEED),
       },
       game
     )
-
+    this.image = new Image()
+    this.image.src = cupidImage
     this.facingAngle = Math.atan(this.vel[0] / (-1 * this.vel[1]))
   }
 
   draw(ctx: Canvas) {
-    let startingAngle = Math.PI / 2 - this.facingAngle
-    const firstPoint = calcPoint(startingAngle, this.pos[0], this.pos[1], Ship.RADIUS)
+    const [x, y] = this.pos
+    const size = Cupid.RADIUS * 2
 
-    ctx.fillStyle = 'red'
-    ctx.beginPath()
-    ctx.arc(firstPoint[0], firstPoint[1], 5, 0, 2 * Math.PI, false)
-    ctx.fill()
-
-    ctx.fillStyle = this.color
-    ctx.beginPath()
-    ctx.moveTo(firstPoint[0], firstPoint[1])
-
-    startingAngle += (Math.PI * 2) / 3
-    const secondPoint = calcPoint(startingAngle, this.pos[0], this.pos[1], Ship.RADIUS)
-    ctx.lineTo(secondPoint[0], secondPoint[1])
-
-    startingAngle += (Math.PI * 2) / 3
-    const thirdPoint = calcPoint(startingAngle, this.pos[0], this.pos[1], Ship.RADIUS)
-    ctx.lineTo(thirdPoint[0], thirdPoint[1])
-
-    ctx.fill()
+    ctx.save()
+    ctx.translate(x, y)
+    ctx.rotate(this.facingAngle)
+    ctx.drawImage(this.image, -size / 2, -size / 2, size, size)
+    ctx.restore()
   }
 
   relocate() {
     this.pos = this.game.randomPosition()
-    this.vel = randomVec(Ship.INITIAL_SPEED)
+    this.vel = randomVec(Cupid.INITIAL_SPEED)
     this.facingAngle = Math.atan(this.vel[0] / (-1 * this.vel[1]))
   }
 
@@ -75,20 +64,20 @@ class Ship extends MovingObject {
     this.facingAngle += angle
   }
 
-  fireBullet() {
+  fireArrow() {
     const startingAngle = Math.PI / 2 - this.facingAngle
     const initialVector = polarToVector(startingAngle)
-    const bulletPos = calcPoint(startingAngle, this.pos[0], this.pos[1], Ship.RADIUS)
+    const arrowPos = calcPoint(startingAngle, this.pos[0], this.pos[1], Cupid.RADIUS)
 
-    const bullet = new Bullet(
+    const arrow = new Arrow(
       {
-        pos: bulletPos,
+        pos: arrowPos,
         vel: scale(initialVector, 50),
       },
       this.game
     )
-    this.game.add(bullet)
+    this.game.add(arrow)
   }
 }
 
-export default Ship
+export default Cupid

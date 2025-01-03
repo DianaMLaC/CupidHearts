@@ -2,8 +2,8 @@ import MovingObject from './moving_object'
 import Game from './game'
 import { MovingObjectConfig, Canvas } from './types'
 import { randomVec } from './util'
-import Ship from './ship'
-import Bullet from './bullet'
+import Ship from './cupid'
+import Bullet from './arrow'
 
 class Heart extends MovingObject {
   static COLOR = '#ff69b4'

@@ -1,7 +1,8 @@
-import Asteroid from './asteroid'
-import Bullet from './bullet'
+// import Asteroid from './asteroid'
+import Heart from './heart'
+import Arrow from './arrow'
 import MovingObject from './moving_object'
-import Ship from './ship'
+import Ship from './cupid'
 import Background from './background'
 import { Canvas } from './types'
 
@@ -10,9 +11,9 @@ class Game {
   static DIM_Y = 800 // t should be the height of the canvas html element
   static NUM_ASTEROIDS = 10
 
-  asteroids: Asteroid[]
+  asteroids: Heart[]
   ship: Ship
-  bullets: Bullet[]
+  bullets: Arrow[]
   background: Background
 
   constructor() {
