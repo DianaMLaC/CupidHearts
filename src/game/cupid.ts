@@ -11,8 +11,8 @@ class Cupid extends MovingObject {
 
   facingAngle: number
   image: HTMLImageElement
-  private readonly SPRITE_BASE_ANGLE = 2.5
-  private bowOffset = [-50, 5]
+  private readonly SPRITE_BASE_ANGLE = 5.72
+  private bowOffset = [40, 5]
 
   constructor(config: Partial<MovingObjectConfig> & Pick<MovingObjectConfig, 'pos'>, game: Game) {
     super(
@@ -52,7 +52,7 @@ class Cupid extends MovingObject {
     const x = impulse * Math.cos(this.facingAngle)
     const y = impulse * Math.sin(this.facingAngle)
 
-    this.vel = [this.vel[0] + x, this.vel[1] - y]
+    this.vel = [this.vel[0] + x, this.vel[1] + y]
   }
 
   rotate(angle: number) {
@@ -60,7 +60,7 @@ class Cupid extends MovingObject {
   }
 
   fireArrow() {
-    const ARROW_SPEED = 0.1
+    const ARROW_SPEED = 5
 
     const arrowVel = [
       ARROW_SPEED * Math.cos(this.facingAngle),

@@ -24,25 +24,23 @@ class Arrow extends MovingObject {
 
     ctx.save()
     ctx.translate(x, y)
-
-    // If you need the arrow to point the same direction as velocity, just use `angle`.
-    // If you want the arrow reversed 180°, do `angle + Math.PI`.
-    // Here I’ll assume arrow = velocity direction:
     ctx.rotate(angle)
 
-    ctx.fillStyle = 'black'
+    ctx.fillStyle = '#1E1E1E'
     ctx.beginPath()
+    // Rectangle body, from x = -15 to x = +5, height ~6px
+    ctx.moveTo(-14, -2)
+    ctx.lineTo(5, -2)
+    ctx.lineTo(5, 2)
+    ctx.lineTo(-14, 2)
+    ctx.closePath()
+    ctx.fill()
 
-    // 1) Shaft: from (−15, 0) to (+5, 0), making it ~20px long
-    ctx.moveTo(-15, 0)
-    ctx.lineTo(5, 0)
-
-    // 2) Arrowhead (a small triangular tip)
-    //    The tip is at x=+5. We’ll draw two lines out from there.
-    ctx.lineTo(0, -5)
-    ctx.moveTo(5, 0)
-    ctx.lineTo(0, 5)
-
+    // Arrowhead (triangle)
+    ctx.beginPath()
+    ctx.moveTo(5, -7) // top corner
+    ctx.lineTo(14, 0) // tip
+    ctx.lineTo(5, 7) // bottom corner
     ctx.closePath()
     ctx.fill()
 
