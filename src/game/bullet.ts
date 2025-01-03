@@ -2,7 +2,7 @@ import Game from './game'
 import MovingObject from './moving_object'
 import { MovingObjectConfig, Canvas } from './types'
 
-class Bullet extends MovingObject {
+class Arrow extends MovingObject {
   constructor(
     config: Partial<MovingObjectConfig> & Pick<MovingObjectConfig, 'vel' | 'pos'>,
     game: Game
@@ -42,4 +42,4 @@ class Bullet extends MovingObject {
   }
 }
 
-export default Bullet
+export default Arrow
