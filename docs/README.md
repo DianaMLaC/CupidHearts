@@ -5,9 +5,10 @@ A simple TypeScript/HTML Canvas game in which you control a flying Cupid who can
 Inspired by classic Asteroids mechanics but with a lovely twist!
 
 ## How to Play
-- **Move Cupid** around the canvas using your chosen key bindings or by modifying `power()` and `rotate()`.
-- **Shoot arrows** by calling `fireArrow()`, which spawns a new arrow object flying in the direction Cupid is facing.
-- Each arrow is drawn using Canvas calls for a simple arrow shape.
+- **Move Cupid** around the canvas using the arrows.
+- **Shoot arrows** with space bar, which spawns a new arrow object flying in the direction Cupid is facing.
+- You have **60s** to shoot **10** hearts
+- Each arrow and heart is drawn using Canvas calls for a simple arrow shape. 
 
 ## Installation & Usage
 1. Clone or download this repository.
