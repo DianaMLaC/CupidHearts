@@ -11,7 +11,11 @@ class Background {
   }
 
   draw(ctx: Canvas) {
-    ctx.fillStyle = '#87CEEB'
+    const gradient = ctx.createLinearGradient(0, 0, 0, 800)
+    gradient.addColorStop(0, '#87CEFA') // Light sky blue
+    gradient.addColorStop(1, '#FFC0CB') // Soft pink
+
+    ctx.fillStyle = gradient
     ctx.fillRect(0, 0, 1024, 800)
 
     ctx.fillStyle = 'white'
@@ -24,7 +28,7 @@ class Background {
 
   update(delta: number) {
     this.stars.forEach((star) => {
-      star.pos[1] += delta * 0.05
+      star.pos[1] += delta * 0.03
       if (star.pos[1] > 800) {
         star.pos[1] = 0
         star.pos[0] = Math.random() * 1024

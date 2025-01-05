@@ -6,7 +6,7 @@ import Ship from './cupid'
 import Bullet from './arrow'
 
 class Heart extends MovingObject {
-  static COLOR = '#ff69b4'
+  static COLOR = '#F3A9C8'
   static RADIUS = 30
   static STARTING_SPEED = 1
 
@@ -50,11 +50,16 @@ class Heart extends MovingObject {
 
     ctx.moveTo(0, -30)
 
-    ctx.bezierCurveTo(-25, -50, -50, -20, 0, 30)
+    ctx.bezierCurveTo(-40, -50, -50, -5, 0, 30)
 
-    ctx.bezierCurveTo(50, -20, 25, -50, 0, -30)
+    ctx.bezierCurveTo(50, -5, 40, -50, 0, -30)
 
     ctx.closePath()
+
+    const gradient = ctx.createLinearGradient(0, 0, 0, 800)
+    gradient.addColorStop(0, '#F093B2') // Light sky blue
+    gradient.addColorStop(1, '#F3A9C8') // Soft pink
+
     ctx.fill()
 
     ctx.restore()
