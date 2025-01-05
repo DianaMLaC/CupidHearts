@@ -38,11 +38,6 @@ class Heart extends MovingObject {
     ctx.bezierCurveTo(50, -5, 40, -50, 0, -30)
 
     ctx.closePath()
-
-    const gradient = ctx.createLinearGradient(0, 0, 0, 800)
-    gradient.addColorStop(0, '#F093B2') // Light sky blue
-    gradient.addColorStop(1, '#F3A9C8') // Soft pink
-
     ctx.fill()
 
     ctx.restore()

@@ -26,7 +26,6 @@ h1 {
   text-shadow: 2px 2px 8px rgba(239, 111, 144, 0.3);
 }
 
-/* Style the score display */
 .game-stats {
   display: flex;
   justify-content: space-around;
