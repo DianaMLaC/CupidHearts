@@ -8,7 +8,6 @@ body, html {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* background-color: #FFE4E1; */
 }
 
 .game-container {
