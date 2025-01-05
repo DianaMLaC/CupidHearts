@@ -2,8 +2,6 @@ import MovingObject from './moving_object'
 import Game from './game'
 import { MovingObjectConfig, Canvas } from './types'
 import { randomVec } from './util'
-import Ship from './cupid'
-import Bullet from './arrow'
 
 class Heart extends MovingObject {
   static COLOR = '#F3A9C8'
@@ -20,21 +18,6 @@ class Heart extends MovingObject {
       },
       game
     )
-  }
-
-  collideWith(otherObj: MovingObject): void {
-    if (otherObj instanceof Ship) {
-      otherObj.relocate()
-      // add 3 lives logic
-      return
-    }
-
-    if (otherObj instanceof Bullet) {
-      this.game.remove(this)
-      this.game.remove(otherObj)
-      // add score logic
-      return
-    }
   }
 
   draw(ctx: Canvas) {

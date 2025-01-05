@@ -22,6 +22,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const playAgainButton = document.getElementById('play-again') as HTMLElement
   playAgainButton.addEventListener('click', () => {
+    const messageEl = document.getElementById('game-end-message') as HTMLElement
+    messageEl.innerText = ''
+
     window.location.reload()
   })
 })

@@ -11,10 +11,19 @@
 <body>
   <div class="game-container">
     <h1>Cupid's Hearts</h1>
-    <!-- <p id="score">Score: 0</p> -->
-    <div class="canvas-wrapper">
-      <canvas id="cupids-game" height="800" width="1024"></canvas>
+
+    <div class="game-stats">
+      <div class="stat-item">
+        <p>Score:</p>
+        <p id="score"> 10 </p>
+      </div>
+      <div class="stat-item">
+        <p>Lives:</p>
+        <p id="lives"> 3 </p>
+      </div>
     </div>
+    <canvas id="cupids-game" height="800" width="1024"></canvas>
+    <p id="game-end-message"></p>
     <button id="play-again">Play Again</button>
   </div>
 </body>

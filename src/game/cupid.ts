@@ -1,5 +1,6 @@
 import Game from './game'
 import Arrow from './arrow'
+// import Heart from './heart'
 import MovingObject from './moving_object'
 import { Canvas, MovingObjectConfig } from './types'
 import { randomVec } from './util'

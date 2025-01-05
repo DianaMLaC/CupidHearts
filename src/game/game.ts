@@ -1,4 +1,3 @@
-// import Asteroid from './asteroid'
 import Heart from './heart'
 import Arrow from './arrow'
 import MovingObject from './moving_object'
@@ -7,25 +6,28 @@ import Background from './background'
 import { Canvas } from './types'
 
 class Game {
-  static DIM_X = 1024 // it should be the width of the canvas html element
-  static DIM_Y = 800 // t should be the height of the canvas html element
+  static DIM_X = 1024
+  static DIM_Y = 800
   static NUM_HEARTS = 10
 
   hearts: Heart[]
   cupid: Cupid
   arrows: Arrow[]
   background: Background
+  score: number
+  lives: number
+  isGameOver: boolean
 
   constructor() {
     this.background = new Background()
     this.hearts = this.addHearts()
     this.arrows = []
-    this.cupid = new Cupid(
-      {
-        pos: this.randomPosition(),
-      },
-      this
-    )
+    this.cupid = new Cupid({ pos: this.randomPosition() }, this)
+    this.score = Game.NUM_HEARTS
+    this.lives = 3
+    this.isGameOver = false
+    this.updateStats('lives')
+    this.updateStats('score')
   }
 
   addHearts(): Heart[] {
@@ -74,6 +76,7 @@ class Game {
   }
 
   step(delta: number) {
+    if (this.isGameOver) return
     this.background.update(delta)
     this.moveObjects(delta)
     this.checkCollisions()
@@ -98,26 +101,66 @@ class Game {
   }
 
   checkCollisions() {
-    const allHearts = this.hearts
+    for (const heart of this.hearts) {
+      if (this.cupid.isCollidedWith(heart)) {
+        this.cupid.relocate()
+        break
+      }
+    }
 
-    for (const heart of allHearts) {
-      for (const otherObj of this.allObjects.filter((obj) => obj !== heart)) {
-        if (heart.isCollidedWith(otherObj)) {
-          heart.collideWith(otherObj)
+    for (const arrow of this.arrows) {
+      for (const heart of this.hearts) {
+        if (arrow.isCollidedWith(heart)) {
+          this.handleArrowCollision(heart, arrow)
         }
       }
     }
   }
 
+  // handleHeartCollision() {
+  //   this.lives -= 1
+  //   // this.updateLives()
+  //   console.log('newLife:', this.lives)
+
+  //   this.updateStats('lives')
+  //   if (this.lives <= 0) {
+  //     this.isGameOver = true
+  //     this.showMessage("Love's a battlefield, and you lost this round! Try again?")
+  //   }
+  // }
+
+  handleArrowCollision(heart: Heart, arrow: Arrow) {
+    this.remove(heart)
+    this.remove(arrow)
+    this.score -= 1
+    console.log('newScore:', this.score)
+    this.updateStats('score')
+
+    if (this.score <= 0) {
+      this.isGameOver = true
+      this.showMessage('Well done! Love is in the air!')
+    }
+  }
+
+  updateStats(id: string) {
+    const statsEl = document.getElementById(id) as HTMLElement
+    if (id === 'score') {
+      statsEl.innerText = `${this.score}`
+    } else {
+      statsEl.innerText = `${this.lives}`
+    }
+  }
+
+  showMessage(message: string) {
+    const messageEl = document.getElementById('game-end-message') as HTMLElement
+    messageEl.innerText = message
+  }
+
   remove(obj: MovingObject) {
     if (obj instanceof Heart) {
-      this.hearts = this.hearts.filter((a) => a !== obj)
-      return
-    }
-
-    if (obj instanceof Arrow) {
-      this.arrows = this.arrows.filter((a) => a !== obj)
-      return
+      this.hearts = this.hearts.filter((heart) => heart !== obj)
+    } else if (obj instanceof Arrow) {
+      this.arrows = this.arrows.filter((arrow) => arrow !== obj)
     }
   }
 
