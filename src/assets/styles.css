@@ -44,7 +44,7 @@ h1 {
   align-items: center;
 }
 
-#score, #lives {
+#score, #timer {
   color: #EF6F90;
   margin: 4px;
 }

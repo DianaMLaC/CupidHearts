@@ -9,13 +9,14 @@ class Game {
   static DIM_X = 1024
   static DIM_Y = 800
   static NUM_HEARTS = 10
+  static TIME = 60
 
   hearts: Heart[]
   cupid: Cupid
   arrows: Arrow[]
   background: Background
   score: number
-  lives: number
+  timeLeft: number
   isGameOver: boolean
 
   constructor() {
@@ -24,10 +25,12 @@ class Game {
     this.arrows = []
     this.cupid = new Cupid({ pos: this.randomPosition() }, this)
     this.score = Game.NUM_HEARTS
-    this.lives = 3
+    this.timeLeft = Game.TIME
     this.isGameOver = false
-    this.updateStats('lives')
+
     this.updateStats('score')
+    this.updateStats('timer')
+    this.startTimer()
   }
 
   addHearts(): Heart[] {
@@ -100,6 +103,24 @@ class Game {
     return pos
   }
 
+  startTimer() {
+    const timerInterval = setInterval(() => {
+      if (this.isGameOver) {
+        clearInterval(timerInterval)
+        return
+      }
+
+      this.timeLeft -= 1
+      this.updateStats('timer')
+
+      if (this.timeLeft <= 0) {
+        clearInterval(timerInterval)
+        this.isGameOver = true
+        this.showMessage("Time's up! Love takes time... Try again?")
+      }
+    }, 1000)
+  }
+
   checkCollisions() {
     for (const heart of this.hearts) {
       if (this.cupid.isCollidedWith(heart)) {
@@ -116,18 +137,6 @@ class Game {
       }
     }
   }
-
-  // handleHeartCollision() {
-  //   this.lives -= 1
-  //   // this.updateLives()
-  //   console.log('newLife:', this.lives)
-
-  //   this.updateStats('lives')
-  //   if (this.lives <= 0) {
-  //     this.isGameOver = true
-  //     this.showMessage("Love's a battlefield, and you lost this round! Try again?")
-  //   }
-  // }
 
   handleArrowCollision(heart: Heart, arrow: Arrow) {
     this.remove(heart)
@@ -147,7 +156,7 @@ class Game {
     if (id === 'score') {
       statsEl.innerText = `${this.score}`
     } else {
-      statsEl.innerText = `${this.lives}`
+      statsEl.innerText = `${this.timeLeft}s`
     }
   }
 
