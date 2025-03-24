@@ -11,6 +11,19 @@
       "no-console": 0
     },
     "env": {
-      "browser": true
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "overrides": [
+    {
+      "files": ["webpack.config.js"],
+      "env": {
+        "node": true
+      },
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off"
+      }
     }
+  ]
   }
